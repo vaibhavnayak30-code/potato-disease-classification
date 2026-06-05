@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 import {
@@ -55,7 +55,7 @@ export const ImageUpload = () => {
 
   let confidence = 0;
 
-  const sendFile = async () => {
+  const sendFile = useCallback(async () => {
     if (!image) return;
 
     const formData = new FormData();
@@ -75,7 +75,7 @@ export const ImageUpload = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [image, selectedFile]);
 
   const clearData = () => {
     setData(null);
@@ -101,7 +101,7 @@ export const ImageUpload = () => {
 
     setIsLoading(true);
     sendFile();
-  }, [preview]);
+  }, [preview, sendFile]);
 
   const onDrop = (acceptedFiles) => {
     if (!acceptedFiles || acceptedFiles.length === 0) {
